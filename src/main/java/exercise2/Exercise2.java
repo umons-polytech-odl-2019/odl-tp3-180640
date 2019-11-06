@@ -1,21 +1,35 @@
 package exercise2;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
 public class Exercise2 {
-	public static void save(Classroom classroom, Path filePath) {
+	public static void save(Classroom classroom, Path filePath) throws IOException {
+		try(OutputStream out = Files.newOutputStream(filePath)) {
+			ObjectOutput oos = new ObjectOutputStream(out);
+			oos.writeObject((classroom));
+		}
+		catch (IOException e){
 
+		}
 	}
 
-	public static Classroom load(Path filePath) {
+	public static Classroom Load(Path filePath) throws IOException, ClassNotFoundException {
+
+		try (InputStream in = Files.newInputStream(filePath)) {
+			ObjectInput ois = new ObjectInputStream(in);
+
+			return (Classroom) ois.readObject();
+		} catch (IOException e) {
+
+		}
 		return null;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Teacher teacher = new Teacher("Claire", "Barnett",
 			LocalDate.of(1975, 3, 7), new PhoneNumber("+32 65 123 456"),
 			new Location("Ho.23", "Houdain"));
@@ -32,7 +46,7 @@ public class Exercise2 {
 
 		System.out.printf("Classroom saved to %s, size=%d bytes\n", filePath.toString(), Files.size(filePath));
 
-		Classroom loadedClassroom = load(filePath);
+		Classroom loadedClassroom = (Classroom)Load(filePath);
 
 		System.out.printf("Classroom loaded from %s: %s\n", filePath.toString(), loadedClassroom.toString());
 	}

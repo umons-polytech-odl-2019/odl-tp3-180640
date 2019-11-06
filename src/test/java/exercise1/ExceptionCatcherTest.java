@@ -22,7 +22,7 @@ public class ExceptionCatcherTest {
 	}
 
 	@Test
-	public void executeExceptionThrowerSafely_when_throwing_exception() {
+	public void executeExceptionThrowerSafely_when_throwing_exception() throws ACatchedException42, ExceptionThrower {
 		doThrow(new TestCustomException()).when(exceptionThrower).throwACustomExceptionWhenValueIs42(42);
 
 		exceptionCatcher.executeExceptionThrowerSafely(42);
@@ -31,7 +31,7 @@ public class ExceptionCatcherTest {
 	}
 
 	@Test
-	public void executeExceptionThrowerSafely_when_not_throwing_exception() {
+	public void executeExceptionThrowerSafely_when_not_throwing_exception() throws ACatchedException42, ExceptionThrower {
 		exceptionCatcher.executeExceptionThrowerSafely(1);
 
 		verify(exceptionThrower).throwACustomExceptionWhenValueIs42(1);

@@ -43,10 +43,10 @@ public class Exercise2Test {
 	}
 
 	@Test
-	public void save_and_load() {
+	public void save_and_load() throws IOException, ClassNotFoundException {
 		Classroom classroom = new Classroom(TEACHER, STUDENTS);
 		Exercise2.save(classroom, tempFilePath);
-		Classroom loadedClassroom = Exercise2.load(tempFilePath);
+		Classroom loadedClassroom = Exercise2.Load(tempFilePath);
 		assertThat(loadedClassroom).isNotNull();
 		assertThat(loadedClassroom.getTeacher()).isEqualTo(TEACHER);
 		assertThat(loadedClassroom.getStudents()).containsOnly(STUDENTS);
